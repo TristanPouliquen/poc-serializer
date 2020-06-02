@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Serializer\Objects\Bic;
+use App\Serializer\Objects\Iban;
 use App\Repository\BankAccountRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
@@ -20,11 +23,14 @@ class BankAccount
     private $id;
 
     /**
+     * @var Iban
+     * @Assert\Iban()
      * @ORM\Column(type="iban")
      */
     private $iban;
 
     /**
+     * @Assert\Bic(ibanPropertyPath="iban")
      * @ORM\Column(type="bic")
      */
     private $bic;
@@ -39,24 +45,24 @@ class BankAccount
         return $this->id;
     }
 
-    public function getIban()
+    public function getIban(): Iban
     {
         return $this->iban;
     }
 
-    public function setIban($iban): self
+    public function setIban(Iban $iban): self
     {
         $this->iban = $iban;
 
         return $this;
     }
 
-    public function getBic()
+    public function getBic(): Bic
     {
         return $this->bic;
     }
 
-    public function setBic($bic): self
+    public function setBic(Bic $bic): self
     {
         $this->bic = $bic;
 
